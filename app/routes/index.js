@@ -81,6 +81,8 @@ module.exports = function (app, passport) {
 			});
 		}).delete(isLoggedIn, (req, res) => {
 			pollHandler.remove_poll(req, res);
+		}).put(isLoggedIn, (req, res) => {
+			pollHandler.update_poll_vote(req, res);
 		});
 
 };

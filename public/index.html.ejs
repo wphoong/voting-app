@@ -36,10 +36,10 @@
 
 
 				<% polls.forEach(({user, _id, title, options}) => { %>
-					<div class="container-fluid">
+					<div class="container">
 						<% const url = "/" + user.displayName + "/" + _id %>
-						<a href="<%= url %>" ><%= title %></a>
-						<form method="POST" action="<%=url%>?_method=DELETE">
+						<a href="<%= url %>" class="float-left"><%= title %></a>
+						<form method="POST" action="<%=url%>?_method=DELETE" class="float-right">
 							<button type="submit" class="btn btn-danger btn-sm">Delete
 							</button>
 						</form>

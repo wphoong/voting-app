@@ -7,18 +7,25 @@
 <body>
 
   <div class="container-fluid">
-    <h1 class="text-center">Voting Poll</h1>
+  	<h1 class="text-center">Voting Poll</h1>
 
     <div>
-      <h3><%= poll.title %></h3>
-      
-      <% poll.options.forEach((option) => { %>
-      	<div>
-	      	<p><%= option.option %> <button>Vote</button></p>
-	      	
-      	</div>
+     	<h3><%= poll.title %></h3>
+      	<div class="container">
+	      <% poll.options.forEach((option) => { %>
+	      	<div>
+	      		<% const url = "/" + poll.user.displayName + "/" + poll._id %>
+		      	<form method="POST" action="<%=url%>?_method=PUT">
+		      		<input type="hidden" name="<%=option.option%>" value="<%=option.option%>">
+		      		<button type="submit" class="btn btn-primary">
+		      			<%= option.option %>
+		      		</button>
+		      	</form>
+		      	<p> Count: <%=option.voteCount %>
+	      	</div>
 
-  	  <% }) %>
+	  	  <% }) %>
+  		</div>
     </div>
 
   </div>

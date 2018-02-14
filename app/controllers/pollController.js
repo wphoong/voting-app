@@ -8,8 +8,8 @@ function PollHandler () {
   this.createPoll = (req,res) => {
 
   	const user = req.user.github.id;
-  	const displayName = req.user.github.displayName.split(' ');
-  	const name = displayName[0] + displayName[1];
+  	const displayName = req.user.github.username;
+  	const name = displayName;
   	console.log("display name: ", name);
   	const options = [];
   	const voteCount = 0;
@@ -45,7 +45,7 @@ function PollHandler () {
 
   this.list_all_polls = (req, res) => {
   	
-  	Poll.find({}, (err, polls) => {
+  	Poll.find({	"user.id": req.user.github.id}, (err, polls) => {
   		if (err) return res.send(err);
   		console.log(polls);
   		res.render(path + '/public/index.html.ejs', {polls});	

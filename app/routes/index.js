@@ -28,7 +28,11 @@ module.exports = function (app, passport) {
 
 	app.route('/polls')
 		.get(function(req, res) {
-			res.sendFile(path +'/public/polls.html');
+			Poll.find({}, (err, polls) => {
+		  		if (err) return res.send(err);
+		  		console.log(polls);
+		  		res.render(path + '/public/polls.html.ejs', {polls});	
+		  	});
 		});
 
 	app.route('/login')

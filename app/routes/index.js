@@ -1,12 +1,17 @@
 'use strict';
 
 var path = process.cwd();
+var mongoose = require('mongoose');
+var Poll = mongoose.model('Polls');
 var ClickHandler = require(path + '/app/controllers/clickHandler.server.js');
+var PollHandler = require('../controllers/pollController.js');
 
 module.exports = function (app, passport) {
+	var userName = "";
 
 	function isLoggedIn (req, res, next) {
 		if (req.isAuthenticated()) {
+			userName = req.user.github.username;
 			return next();
 		} else {
 			res.redirect('/login');
@@ -14,10 +19,16 @@ module.exports = function (app, passport) {
 	}
 
 	var clickHandler = new ClickHandler();
+	var pollHandler = new PollHandler();
 
 	app.route('/')
 		.get(isLoggedIn, function (req, res) {
-			res.sendFile(path + '/public/index.html');
+			pollHandler.list_all_polls(req, res);
+		});
+
+	app.route('/polls')
+		.get(function(req, res) {
+			res.sendFile(path +'/public/polls.html');
 		});
 
 	app.route('/login')
@@ -54,4 +65,22 @@ module.exports = function (app, passport) {
 		.get(isLoggedIn, clickHandler.getClicks)
 		.post(isLoggedIn, clickHandler.addClick)
 		.delete(isLoggedIn, clickHandler.resetClicks);
+
+	app.route('/create')
+		.get(function (req, res) {
+			res.render(path + '/public/create.html.ejs');
+		})
+		.post(isLoggedIn, pollHandler.createPoll);
+
+	app.route('/:userName/:pollId')
+		.get(isLoggedIn, function(req, res) {
+
+			Poll.findById(req.params.pollId, (err, poll) => {
+				if (err) return res.send(err);
+				res.render(path + '/public/poll.html.ejs', {poll});
+			});
+		}).delete(isLoggedIn, (req, res) => {
+			pollHandler.remove_poll(req, res);
+		});
+
 };

@@ -3,6 +3,7 @@
 var GitHubStrategy = require('passport-github').Strategy;
 var User = require('../models/users');
 var configAuth = require('./auth');
+const RememberMeStrategy = require('passport-remember-me').Strategy;
 
 module.exports = function (passport) {
 	passport.serializeUser(function (user, done) {
@@ -49,4 +50,7 @@ module.exports = function (passport) {
 			});
 		});
 	}));
+
+
+
 };

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+  <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <p>Create Poll</p>
+    
+    <form action="/create" method="POST">
+      <label> Title:
+        <input type="text" name="title" placeholder="Add Title">
+      </label>
+      <div id="options-group">
+        <label> Options:
+          <input type="text" placeholder="Option 1" name="option1">
+          <input type="text" placeholder="Option 2" name="option2">
+        </label>
+      </div>
+      <input type="submit">
+    </form>
+    <button id="more-options-btn">More options</button>
+
+  </div>
+
+  <script type="text/javascript">
+    
+    var optionsGroup = document.getElementById('options-group');
+    var moreOptionsBtn = document.getElementById('more-options-btn');
+    var count = 3;
+
+    moreOptionsBtn.addEventListener("click", function() {
+      const input = document.createElement("input");
+      input.type = "text";
+      input.name = "option"+count;
+      input.placeholder = "Option "+count;
+
+      optionsGroup.appendChild(input);
+      count++;
+    });
+
+  </script>
+</body>
+</html>

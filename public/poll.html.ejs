@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Voting Poll</title>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+
+  <div class="container-fluid">
+    <h1 class="text-center">Voting Poll</h1>
+
+    <div>
+      <h3><%= poll.title %></h3>
+      
+      <% poll.options.forEach((option) => { %>
+      	<div>
+	      	<p><%= option.option %> <button>Vote</button></p>
+	      	
+      	</div>
+
+  	  <% }) %>
+    </div>
+
+  </div>
+</body>
+</html>

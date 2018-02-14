@@ -73,7 +73,7 @@ module.exports = function (app, passport) {
 		.post(isLoggedIn, pollHandler.createPoll);
 
 	app.route('/:userName/:pollId')
-		.get(isLoggedIn, function(req, res) {
+		.get(function(req, res) {
 
 			Poll.findById(req.params.pollId, (err, poll) => {
 				if (err) return res.send(err);
@@ -81,7 +81,7 @@ module.exports = function (app, passport) {
 			});
 		}).delete(isLoggedIn, (req, res) => {
 			pollHandler.remove_poll(req, res);
-		}).put(isLoggedIn, (req, res) => {
+		}).put((req, res) => {
 			pollHandler.update_poll_vote(req, res);
 		});
 

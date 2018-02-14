@@ -7,7 +7,7 @@ var Poll = require("./app/models/poll.js");
 var passport = require("passport");
 var session = require("express-session");
 var routes = require("./app/routes/index.js");
-var methodOverride = require('method-override')
+var methodOverride = require('method-override');
 
 var app = express();
 require("dotenv").load();

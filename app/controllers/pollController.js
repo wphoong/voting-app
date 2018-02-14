@@ -64,38 +64,13 @@ function PollHandler () {
 
   this.update_poll_vote = (req, res) => {
 
-  	// let optionIndex;
-
-  	// Poll.findById(req.params.pollId, (err, poll) => {
-  	// 	if (err) return res.send(err);
-  	// 	const option = JSON.stringify(Object.keys(req.body)[0]);
-
-  	// 	const optionsArr = poll.options;
-  	// 	console.log("option req ", option);
-
-  	// 	console.log("options arr ", optionsArr);
-
-  	// 	console.log("found poll ", poll);
-
-  	// 	optionsArr.forEach((current, index) => {
-  	// 		if (JSON.stringify(current.option) == option) {
-  	// 			optionIndex = index;
-  	// 		}
-  	// 	});
-  	// 	console.log("clicked index ", optionIndex);
-
-  	// });
-
-  	// console.log("req displayname", req.params.userName);
-  	// console.log("req pollId", req.params.pollId);
-  	// // console.log("req option clicked", Object.keys(req.body));
-  	const option = JSON.stringify(Object.keys(req.body)[0]);
+  	const option = Object.keys(req.body)[0];
 
   	const update = {
   		 "$inc": { "options.$.voteCount" : 1}
   	};
   	
-  	Poll.findOneAndUpdate({_id: req.params.pollId, 'options.option': Object.keys(req.body)[0] }, update , (err, poll) => {
+  	Poll.findOneAndUpdate({_id: req.params.pollId, 'options.option': option }, update , (err, poll) => {
   		console.log("found poll", poll);
   		if (err) return res.send(err);
   		console.log(req.params.pollId + " has been updated");

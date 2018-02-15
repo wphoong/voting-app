@@ -35,7 +35,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 mongoose.Promise = global.Promise;
-mongoose.connect(process.env.MONGO_URI);
+mongoose.connect(process.env.MONGOLAB_URI);
 
 
 routes(app, passport);

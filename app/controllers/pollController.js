@@ -47,7 +47,7 @@ function PollHandler () {
   	
   	Poll.find({	"user.id": req.user.github.id}, (err, polls) => {
   		if (err) return res.send(err);
-  		console.log(polls);
+  		console.log("POLLS ", JSON.stringify(polls));
   		res.render(path + '/public/index.html.ejs', {polls});	
   	});
   	
@@ -79,27 +79,32 @@ function PollHandler () {
   };
 
   this.update_poll_option = (req, res) => {
+  	
   	const option = Object.values(req.body);
-  	console.log("OPTION ", option);
+  	console.log("OPTION ", option[0]);
+
   	const newOption = {
-  		"option": option,
-  		"voteCount": 0
-  	};
+  	  		"option": option[0],
+  	  		"voteCount": 0
+  	  	};
 
-  	let optionsArr = [];
+  	// let optionsArr = [];
 
-  	Poll.findById({_id: req.params.pollId}, (err, poll) => {
-  		optionsArr = poll.options;
-  	});
+  	// Poll.findById({_id: req.params.pollId}, (err, poll) => {
+  	// 	optionsArr = poll.options;
+  	// 	optionsArr = optionsArr.concat(newOption);
+  	// 	console.log("OPTIONS ARR ", optionsArr);
+  	// });
 
-  	const update = {
-  		options: [...optionsArr, newOption]
-  	};  	
+  	// console.log("NEW OPTION ARR ", newOptionArr);
 
+  	// const update = {
+  	// 	options: newOptionArr
+  	// };
 
-  	Poll.findOneAndUpdate({_id: req.params.pollId}, {} , (err, poll) => {
-  		console.log("new options arr", update.options);
+  	// console.log("UPDATE ", JSON.stringify(update));  	
 
+  	Poll.findOneAndUpdate({_id: req.params.pollId}, { $push: { options: { $each: [newOption] }}} , (err, poll) => {
   		if (err) return res.send(err);
   		console.log(req.params.pollId + " has been updated");
   		res.redirect("/"+req.params.userName+"/"+req.params.pollId);

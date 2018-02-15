@@ -77,6 +77,34 @@ function PollHandler () {
   		res.redirect("/"+req.params.userName+"/"+req.params.pollId);
   	});
   };
+
+  this.update_poll_option = (req, res) => {
+  	const option = Object.values(req.body);
+  	console.log("OPTION ", option);
+  	const newOption = {
+  		"option": option,
+  		"voteCount": 0
+  	};
+
+  	let optionsArr = [];
+
+  	Poll.findById({_id: req.params.pollId}, (err, poll) => {
+  		optionsArr = poll.options;
+  	});
+
+  	const update = {
+  		options: [...optionsArr, newOption]
+  	};  	
+
+
+  	Poll.findOneAndUpdate({_id: req.params.pollId}, {} , (err, poll) => {
+  		console.log("new options arr", update.options);
+
+  		if (err) return res.send(err);
+  		console.log(req.params.pollId + " has been updated");
+  		res.redirect("/"+req.params.userName+"/"+req.params.pollId);
+  	});
+  };
 }
 
 module.exports = PollHandler;

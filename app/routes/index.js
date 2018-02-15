@@ -78,15 +78,16 @@ module.exports = function (app, passport) {
 
 	app.route('/:userName/:pollId')
 		.get(function(req, res) {
-
 			Poll.findById(req.params.pollId, (err, poll) => {
 				if (err) return res.send(err);
-				res.render(path + '/public/poll.html.ejs', {poll});
+				res.render(path + '/public/poll.html.ejs', {poll: poll, user: req.user});
 			});
 		}).delete(isLoggedIn, (req, res) => {
 			pollHandler.remove_poll(req, res);
 		}).put((req, res) => {
 			pollHandler.update_poll_vote(req, res);
+		}).patch(isLoggedIn, (req, res) => {
+			pollHandler.update_poll_option(req, res);
 		});
 
 };

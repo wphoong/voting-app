@@ -10,6 +10,14 @@
   <div class="container-fluid">
   	<h1 class="text-center">Voting Poll</h1>
 
+  	<% if (user) { %>
+  		<% const url = "/" + poll.user.displayName + "/" + poll._id %>
+  		 <button id="add-more-options-btn">Add More Options</button>
+  		 <form id="addOptionForm" method="POST" action="<%=url%>?_method=PATCH">
+  		 	<input id="optionSubmit" class="d-none" type="submit"></input>
+  		 </form>
+  	<% } %>
+
     <div>
      	<h3><%= poll.title %></h3>
       	<div class="container">
@@ -34,6 +42,26 @@
 
   </div>
   <script>
+  	const optionSubmit = document.getElementById('optionSubmit');
+  	const addOptionForm = document.getElementById('addOptionForm');
+  	const addMoreOptionsBtn = document.getElementById('add-more-options-btn');
+  	const optionsLength = "<%=poll.options.length%>";
+  	let count = Number(optionsLength) + 1;
+  	
+  	addMoreOptionsBtn.addEventListener("click", function() {
+      const input = document.createElement("input");
+      input.type = "text";
+      input.name = "option"+count;
+      input.placeholder = "Option "+count;
+
+      addOptionForm.appendChild(input);
+      optionSubmit.classList.remove('d-none');
+      count++;
+      addMoreOptionsBtn.disabled = true;
+    });
+
+
+  	// Logic for Chart
   	var ctx = document.getElementById("myChart");
   	let optionsData = [];
   	let optionsLabels = [];
